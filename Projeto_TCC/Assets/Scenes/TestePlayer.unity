@@ -269,15 +269,18 @@ MonoBehaviour:
   wallJumpDuration: 0.15
   jumpFinish: 0
   dashTime: 0.2
-  dashSpeed: 25
+  dashSpeed: 100
   distanceGhost: 0.05
   dashCoolDown: 1
   facingRight: 0
-  seaOffSet: 0.1
+  seaOffSet: -0.3
   seaRadius: 0.1
+  speedInWater: 1.5
   seaLayer:
     serializedVersion: 2
     m_Bits: 1024
+  frequencia: 2
+  magnitude: 0.005
 --- !u!61 &138810197
 BoxCollider2D:
   m_ObjectHideFlags: 0

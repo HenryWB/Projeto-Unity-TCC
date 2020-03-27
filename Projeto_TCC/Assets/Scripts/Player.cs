@@ -18,7 +18,9 @@ public class Player : MonoBehaviour
 
     [Header("Movement")]
     public float speed;
+    private float speedOrign;
     private float horizontal;
+    private float vertical;
 
     [Header("Jump")]
     public LayerMask groundLayer;
@@ -60,8 +62,14 @@ public class Player : MonoBehaviour
     [Header("Swim")]
     public float seaOffSet;
     public float seaRadius;
+    public float speedInWater;
     public LayerMask seaLayer;
     private bool isWater;
+    private bool isSwimming;
+
+    [Header("Sine Wave")]
+    public float frequencia;
+    public float magnitude;
 
 
     private void OnDrawGizmos()
@@ -83,6 +91,7 @@ public class Player : MonoBehaviour
     {
         Rb = GetComponent<Rigidbody2D>();
         totalPulos = multiJump;
+        speedOrign = speed;
     }
 
     private void FixedUpdate()
@@ -103,10 +112,19 @@ public class Player : MonoBehaviour
 
     public void Movimento()
     {
-        if (!canMove)
+        if (!canMove && isSwimming)
         {
             return;
         }
+
+        if (isWater)
+        {
+            speed = speedOrign / 2;
+        } else if(isOnGruond)
+        {
+            speed = speedOrign; 
+        }
+
         Vector2 move = Rb.velocity;
         move.x = horizontal * speed * 100 * Time.deltaTime;
 
@@ -128,12 +146,31 @@ public class Player : MonoBehaviour
 
     public void MovimentoAgua()
     {
-        if (isWater)
+        if (isWater && !isSwimming)
         {
             Rb.gravityScale = 4f;
         } else
         {
             Rb.gravityScale = 5f;
+        }
+
+        if (isSwimming)
+        {
+            Rb.gravityScale = 0;
+            Vector2 move = Rb.velocity;
+            move.x = horizontal * speedInWater * 100 * Time.deltaTime;
+            move.y = vertical * speedInWater * 100 * Time.deltaTime;
+
+            if (horizontal == 0 && vertical == 0)
+            {
+                //move.x = speedInWater * 100 * Mathf.Cos(Time.time * frequencia) * magnitude;
+                move.y = speedInWater * 100 * Mathf.Sin(Time.time * frequencia) * magnitude;
+            }
+
+
+            Rb.velocity = move;
+
+            
         }
     }
 
@@ -146,9 +183,9 @@ public class Player : MonoBehaviour
             Rb.velocity = Vector2.up * jumpForce * 100 * Time.deltaTime;
         }
 
-        if (multiJump > 0 && !isOnGruond && JumpPressedDown)
+        if (multiJump > 0 && !isOnGruond && JumpPressedDown && !isSwimming)
         {
-            Rb.velocity = Vector2.up * jumpForce * 225 * Time.deltaTime;
+            Rb.velocity = Vector2.up * jumpForce * 190 * Time.deltaTime;
             multiJump--;
         }
 
@@ -224,7 +261,9 @@ public class Player : MonoBehaviour
 
         bool contato = Physics2D.OverlapCircle(feet.position, radiusFeet, groundLayer);
         isOnGruond = contato;
-      
+
+        bool water = Physics2D.OverlapCircle(transform.position + new Vector3(0f, seaOffSet), seaRadius, seaLayer);
+        isWater = water;
 
         bool rigthWall = Physics2D.OverlapCircle(transform.position + new Vector3(wallOffSet, 0f), wallRadius, wallLayer);
         bool leftWall = Physics2D.OverlapCircle(transform.position + new Vector3(-wallOffSet, 0f), wallRadius, wallLayer);
@@ -243,8 +282,7 @@ public class Player : MonoBehaviour
         }
 
 
-        bool water = Physics2D.OverlapCircle(transform.position + new Vector3(0f, seaOffSet), seaRadius, seaLayer);
-        isWater = water;
+        
     }
 
     public void InputCheck()
@@ -256,6 +294,7 @@ public class Player : MonoBehaviour
         if (canMove)
         {
             horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
         }
 
         if (jumpFromWall)
@@ -280,6 +319,18 @@ public class Player : MonoBehaviour
             {
                 AttemptToDash();
             }
+        }
+
+        if (isWater && !isSwimming)
+        {
+            if (Input.GetKey(KeyCode.S))
+            {
+                isSwimming = true;
+            }
+        }
+        else if (!isWater)
+        {
+            isSwimming = false;
         }
     }
 
