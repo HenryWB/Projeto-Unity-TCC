@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -63,7 +65,9 @@ public class Player : MonoBehaviour
     public float seaOffSet;
     public float seaRadius;
     public float speedInWater;
+    public float folego;
     public LayerMask seaLayer;
+    private float maxFolego;
     private bool isWater;
     private bool isSwimming;
 
@@ -92,6 +96,7 @@ public class Player : MonoBehaviour
         Rb = GetComponent<Rigidbody2D>();
         totalPulos = multiJump;
         speedOrign = speed;
+        maxFolego = folego;
     }
 
     private void FixedUpdate()
@@ -112,7 +117,7 @@ public class Player : MonoBehaviour
 
     public void Movimento()
     {
-        if (!canMove && isSwimming)
+        if (!canMove)
         {
             return;
         }
@@ -120,9 +125,10 @@ public class Player : MonoBehaviour
         if (isWater)
         {
             speed = speedOrign / 2;
-        } else if(isOnGruond)
+        }
+        else if (isOnGruond)
         {
-            speed = speedOrign; 
+            speed = speedOrign;
         }
 
         Vector2 move = Rb.velocity;
@@ -183,7 +189,7 @@ public class Player : MonoBehaviour
             Rb.velocity = Vector2.up * jumpForce * 100 * Time.deltaTime;
         }
 
-        if (multiJump > 0 && !isOnGruond && JumpPressedDown && !isSwimming)
+        if (multiJump > 0 && !isOnGruond && JumpPressedDown)
         {
             Rb.velocity = Vector2.up * jumpForce * 190 * Time.deltaTime;
             multiJump--;
@@ -360,5 +366,31 @@ public class Player : MonoBehaviour
         }
 
         transform.rotation = rotacao;
+    }
+
+    public void Folego()
+    {
+        if (isSwimming)
+        {
+            if(folego > 0)
+            {
+                folego -= Time.deltaTime;
+            }
+            else if(folego <= 0)
+            {
+                //Morre;
+            }
+        }
+        else
+        {
+            if (folego < maxFolego) {
+                folego += Time.deltaTime;
+            } 
+
+            if(folego > maxFolego)
+            {
+                folego = maxFolego;
+            }
+        }
     }
 }
