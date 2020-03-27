@@ -57,6 +57,12 @@ public class Player : MonoBehaviour
     public bool facingRight = true;
     private int direcao = 1;
 
+    [Header("Swim")]
+    public float seaOffSet;
+    public float seaRadius;
+    public LayerMask seaLayer;
+    private bool isWater;
+
 
     private void OnDrawGizmos()
     {
@@ -64,11 +70,13 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireSphere(feet.position, radiusFeet);
 
         Gizmos.color = Color.red;
-
         Gizmos.DrawWireSphere(transform.position + new Vector3(wallOffSet, 0f), wallRadius);
-        Gizmos.color = Color.blue;
 
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position + new Vector3(-wallOffSet, 0f), wallRadius);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position + new Vector3(0f, seaOffSet), seaRadius);
     }
 
     void Start()
@@ -81,6 +89,7 @@ public class Player : MonoBehaviour
     {
         TestarContato();
         Movimento();
+        MovimentoAgua();
     }
 
     private void Update()
@@ -92,7 +101,7 @@ public class Player : MonoBehaviour
         Flip();
     }
 
-    private void Movimento()
+    public void Movimento()
     {
         if (!canMove)
         {
@@ -117,6 +126,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void MovimentoAgua()
+    {
+        if (isWater)
+        {
+            Rb.gravityScale = 4f;
+        } else
+        {
+            Rb.gravityScale = 5f;
+        }
+    }
+
     public void Pular()
     {
         if (JumpPressedDown && isOnGruond)
@@ -128,7 +148,7 @@ public class Player : MonoBehaviour
 
         if (multiJump > 0 && !isOnGruond && JumpPressedDown)
         {
-            Rb.velocity = Vector2.up * jumpForce * 100 * Time.deltaTime;
+            Rb.velocity = Vector2.up * jumpForce * 225 * Time.deltaTime;
             multiJump--;
         }
 
@@ -150,7 +170,7 @@ public class Player : MonoBehaviour
             isJump = false;
         }
 
-        if (isOnGruond || onWall)
+        if (isOnGruond || onWall || isWater)
         {
             multiJump = totalPulos;
         }
@@ -200,6 +220,7 @@ public class Player : MonoBehaviour
     {
         isOnGruond = false;
         onWall = false;
+        isWater = false;
 
         bool contato = Physics2D.OverlapCircle(feet.position, radiusFeet, groundLayer);
         isOnGruond = contato;
@@ -221,6 +242,9 @@ public class Player : MonoBehaviour
             }
         }
 
+
+        bool water = Physics2D.OverlapCircle(transform.position + new Vector3(0f, seaOffSet), seaRadius, seaLayer);
+        isWater = water;
     }
 
     public void InputCheck()
