@@ -65,11 +65,17 @@ public class Player : MonoBehaviour
     public float seaOffSet;
     public float seaRadius;
     public float speedInWater;
-    public float folego;
     public LayerMask seaLayer;
-    private float maxFolego;
     private bool isWater;
     private bool isSwimming;
+
+    [Header("Respiracao")]
+    public Slider respiracao;
+    public float folego;
+    public float velResp;
+    public float velRecup;
+    private float maxFolego;
+
 
     [Header("Sine Wave")]
     public float frequencia;
@@ -97,6 +103,7 @@ public class Player : MonoBehaviour
         totalPulos = multiJump;
         speedOrign = speed;
         maxFolego = folego;
+        respiracao.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -113,6 +120,7 @@ public class Player : MonoBehaviour
         WallJump();
         CheckDash();
         Flip();
+        Folego();
     }
 
     public void Movimento()
@@ -372,25 +380,29 @@ public class Player : MonoBehaviour
     {
         if (isSwimming)
         {
+            respiracao.gameObject.SetActive(true);
             if(folego > 0)
             {
-                folego -= Time.deltaTime;
+                folego -= velResp * Time.deltaTime;
             }
             else if(folego <= 0)
             {
-                //Morre;
+                SceneManager.LoadScene(0);
             }
         }
         else
         {
             if (folego < maxFolego) {
-                folego += Time.deltaTime;
+                folego += velRecup * Time.deltaTime;
             } 
 
             if(folego > maxFolego)
             {
+                respiracao.gameObject.SetActive(false);
                 folego = maxFolego;
             }
         }
+
+        respiracao.value = folego;
     }
 }

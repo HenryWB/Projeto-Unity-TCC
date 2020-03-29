@@ -371,14 +371,17 @@ MonoBehaviour:
   dashSpeed: 25
   distanceGhost: 1
   dashCoolDown: 1
-  facingRight: 0
+  facingRight: 1
   seaOffSet: -0.3
   seaRadius: 0.1
   speedInWater: 1.5
-  folego: 0
   seaLayer:
     serializedVersion: 2
     m_Bits: 1024
+  respiracao: {fileID: 2012415582}
+  folego: 100
+  velResp: 20
+  velRecup: 10
   frequencia: 2
   magnitude: 0.005
 --- !u!61 &138810197
@@ -2826,9 +2829,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
