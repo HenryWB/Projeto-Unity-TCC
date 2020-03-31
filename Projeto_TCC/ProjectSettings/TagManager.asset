@@ -9,6 +9,7 @@ TagManager:
   - PlatTrans
   - PlayerSprit
   - PlayerSprite
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - IsGround
   - IsWall
   - IsSea
-  - 
+  - Interacao
   - 
   - 
   - 

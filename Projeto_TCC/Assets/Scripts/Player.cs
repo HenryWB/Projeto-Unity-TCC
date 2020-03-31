@@ -183,8 +183,6 @@ public class Player : MonoBehaviour
 
 
             Rb.velocity = move;
-
-            
         }
     }
 
@@ -232,10 +230,10 @@ public class Player : MonoBehaviour
         if(onWall && !isOnGruond && JumpPressedDown)
         {
             canMove = false;
+            facingRight = !facingRight;
             jumpFinish = Time.time + wallJumpDuration;
             JumpPressedDown = false;
             jumpFromWall = true;
-            facingRight = !facingRight;
             Rb.velocity = Vector2.up * verticalJumpForce * 100 * Time.deltaTime;
             Rb.velocity += Vector2.right * direcao * horizontalJumpForce * 100 * Time.deltaTime;
         }
