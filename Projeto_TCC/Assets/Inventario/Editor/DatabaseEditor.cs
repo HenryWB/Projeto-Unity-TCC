@@ -100,12 +100,12 @@ public class DatabaseEditor : Editor
 
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Name: ");
-        GUILayout.Label(item.name, valueStyle);
+        GUILayout.Label(item.name, labelStyle);
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Type: ");
-        GUILayout.Label(item.itemType.ToString(), valueStyle);
+        GUILayout.Label(item.itemType.ToString(), labelStyle);
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
@@ -116,7 +116,7 @@ public class DatabaseEditor : Editor
         //EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Descrição: ");
         item.scrollPos = EditorGUILayout.BeginScrollView(item.scrollPos,  GUILayout.MinHeight(3), GUILayout.MaxHeight(70));
-        GUILayout.Label(item.descricao, valueStyle);
+        GUILayout.Label(item.descricao, labelStyle);
         EditorGUILayout.EndScrollView();
         //EditorGUILayout.EndHorizontal();
 

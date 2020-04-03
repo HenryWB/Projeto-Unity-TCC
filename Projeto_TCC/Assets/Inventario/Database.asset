@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itens:
   - id: 1
-    name: ASdasd
-    descricao: 
-    isStackable: 1
+    name: "Mascar\xE1"
+    descricao: "Mascara usada para respirar debaixo da \xE1gua"
+    isStackable: 0
     itemType: 2
     status:
       cost: 0

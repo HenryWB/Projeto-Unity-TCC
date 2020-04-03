@@ -10,6 +10,7 @@ public class DragNDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Transform invetorioPanel;
     public Slot mySlot;
     public Slot destinationSlot;
+    public Lixeira lixo;
     private Image myImage;
 
     private void Start()
@@ -17,6 +18,7 @@ public class DragNDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         inventario = FindObjectOfType<Inventario>();
         invetorioPanel = transform.parent.parent;
         myImage = this.GetComponent<Image>();
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -46,12 +48,15 @@ public class DragNDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 inventario.SwapSlots(mySlot.slotInfo.id, mySlot.slotInfo.id, this.transform, this.transform);
             }
         }
-        else
+        else if(lixo != null)
         {
             inventario.SwapSlots(mySlot.slotInfo.id, mySlot.slotInfo.id, this.transform, this.transform);
             inventario.RemoveItem(mySlot.slotInfo.itemId, mySlot.slotInfo);
         }
-
+        else
+        {
+            inventario.SwapSlots(mySlot.slotInfo.id, mySlot.slotInfo.id, this.transform, this.transform);
+        }
         myImage.raycastTarget = true;
         destinationSlot = null;
     }

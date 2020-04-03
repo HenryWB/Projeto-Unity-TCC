@@ -10,7 +10,6 @@ public class Slot : MonoBehaviour, IDropHandler
     public DataBase database;
     public Image itemImage;
     public TMP_Text amountText;
-
     public SlotInfo slotInfo;
 
     public void OnDrop(PointerEventData eventData)

@@ -36,6 +36,7 @@ public class Inventario : MonoBehaviour
             LoadEmptyInventorio();
         }
 
+        gameObject.SetActive(false);
     }
 
     private void LoadEmptyInventorio()
