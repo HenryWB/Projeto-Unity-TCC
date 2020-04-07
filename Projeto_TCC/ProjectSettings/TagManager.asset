@@ -10,6 +10,8 @@ TagManager:
   - PlayerSprit
   - PlayerSprite
   - Item
+  - Carangueijo
+  - Caranguejo
   layers:
   - Default
   - TransparentFX

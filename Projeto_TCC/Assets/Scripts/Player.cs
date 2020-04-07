@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum FORMAS {Espirito, Caranguejo}
 public class Player : MonoBehaviour
 {
+    public static FORMAS formaPlayer;
+
     [Header("Atributos")]
     private Rigidbody2D Rb;
 
@@ -16,7 +19,6 @@ public class Player : MonoBehaviour
     private bool JumpUp;
     private bool isJump;
     private bool isDashing;
-
 
     [Header("Movement")]
     public float speed;
@@ -99,6 +101,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        formaPlayer = FORMAS.Espirito;
         Rb = GetComponent<Rigidbody2D>();
         totalPulos = multiJump;
         speedOrign = speed;
@@ -108,6 +111,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log(formaPlayer);
         TestarContato();
         Movimento();
         MovimentoAgua();
@@ -117,10 +121,10 @@ public class Player : MonoBehaviour
     {
         InputCheck();
         Pular();
-        WallJump();
-        CheckDash();
+        //WallJump();
+        //CheckDash();
         Flip();
-        Folego();
+        //Folego();
     }
 
     public void Movimento()
@@ -299,9 +303,9 @@ public class Player : MonoBehaviour
 
     public void InputCheck()
     {
-        JumpPressedDown = Input.GetButtonDown("Jump") && !Input.GetKey(KeyCode.S);
-        JumpPressed = Input.GetKey(KeyCode.Space);
-        JumpUp = Input.GetKeyUp(KeyCode.Space);
+        JumpPressedDown = Input.GetButtonDown("Jump") && !Input.GetKey(KeyCode.S) && formaPlayer != FORMAS.Caranguejo;
+        JumpPressed = Input.GetKey(KeyCode.Space); 
+        JumpUp = Input.GetKeyUp(KeyCode.Space); 
 
         if (canMove)
         {
