@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlataformControl : MonoBehaviour
 {
+
     public float speedX;
     public int direcaoX = 1;
     public float speedY;

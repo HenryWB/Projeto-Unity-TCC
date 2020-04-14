@@ -12,6 +12,9 @@ TagManager:
   - Item
   - Carangueijo
   - Caranguejo
+  - GM
+  - Diretor
+  - head
   layers:
   - Default
   - TransparentFX
