@@ -28,12 +28,12 @@ TagManager:
   - IsWall
   - IsSea
   - Interacao
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Fundo1
+  - Fundo2
+  - Fundo3
+  - Fundo4
+  - Fundo5
+  - Fundo6
   - 
   - 
   - 
@@ -54,4 +54,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3724455569
+    locked: 0
+  - name: Fundo
+    uniqueID: 1843844981
     locked: 0
